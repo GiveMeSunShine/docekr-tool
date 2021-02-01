@@ -1,8 +1,8 @@
-#使用 docker-tool 编译打包镜像
+使用 docker-tool 编译打包镜像
 
 本项目主要是用来将本地项目进行docker镜像化的小工具
 
-###本地环境要求
+本地环境要求
 
     docker版本：
 
@@ -22,21 +22,23 @@
 
 
 
-###基础镜像环境
+基础镜像环境
+
 `java：1.8.191`
 
 `golang:1.14.13`
 
 `nodejs:14.15.4`
 
-##使用说明：
-###1.编译本地项目
-###2.拷贝编译包并且修改start脚本
+使用说明：
+下载 jdk1.8.0_191.tar.gz，go1.14.13.linux-amd64.tar.gz，node-v14.15.4-linux-x64.tar.gz，并将压缩包放入 docker-tool/baseImage 目录下
+1.编译本地项目
+2.拷贝编译包并且修改start脚本
     将编译好的项目包拷贝到projectImages/project
     修改 start 启动脚本
-####注： *start 启动脚本中执行的程序不能为后台运行，如果一定要后天运行，则需要在start脚本最后添加 tail -f /home/null 来保证容器启动是一直在运行*
+注： *start 启动脚本中执行的程序不能为后台运行，如果一定要后天运行，则需要在start脚本最后添加 tail -f /home/null 来保证容器启动是一直在运行*
 
-###3.镜像编译
+3.镜像编译
 项目编译分 java 和其他 两种项目编译方式，区别在于：java项目可以默认使用jar包名称作为镜像名称，其他项目(go/node)需要使用这强制输入镜像名称
 
     ./build
@@ -99,10 +101,10 @@
     umf-blockchain-0.0.1-snapshot               2021-01-28                       08868ecb447c   15 seconds ago       1.09GB
     此次镜像构建结束
 
-###4. 修改启动模板（需要了解 docker-compose 文件知识）
+4. 修改启动模板（需要了解 docker-compose 文件知识）
 相关知识  https://www.runoob.com/docker/docker-compose.html
 
-###5. 启动服务，并验证
+5. 启动服务，并验证
     ./run
     docker ps
     CONTAINER ID   IMAGE                                      COMMAND                CREATED              STATUS              PORTS                      NAMES
