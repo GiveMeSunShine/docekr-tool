@@ -31,9 +31,13 @@
 `nodejs:14.15.4`
 
 使用说明：
+
 下载 jdk1.8.0_191.tar.gz，go1.14.13.linux-amd64.tar.gz，node-v14.15.4-linux-x64.tar.gz，并将压缩包放入 docker-tool/baseImage 目录下
+
 1.编译本地项目
+
 2.拷贝编译包并且修改start脚本
+
     将编译好的项目包拷贝到projectImages/project
     修改 start 启动脚本
 注： *start 启动脚本中执行的程序不能为后台运行，如果一定要后天运行，则需要在start脚本最后添加 tail -f /home/null 来保证容器启动是一直在运行*
