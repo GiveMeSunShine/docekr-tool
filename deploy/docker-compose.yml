@@ -1,0 +1,8 @@
+version: '2'
+services:
+  blockchain:
+    image: umf-blockchain-0.0.1-snapshot:2021-01-28
+    ports:
+    - 18080:18080
+    volumes:
+    - ./logs:/home/mpsp/logs

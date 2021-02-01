@@ -1,0 +1,2 @@
+#!/bin/bash
+nohup docker-compose -f deploy/docker-compose.yml up > nohup.log 2>&1 &

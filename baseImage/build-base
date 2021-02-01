@@ -1,0 +1,27 @@
+#!/bin/bash
+PARGRAM=centos7
+version=ysh
+echo "镜像名称：$PARGRAM:$version"
+docker build -t $PARGRAM:$version .
+echo  '编译结果:'
+docker images | grep $PARGRAM
+
+echo '测试(容器内部): 检查镜像内java，go，node 环境，退出请 ctrl D '
+docker run -it $PARGRAM:$version /bin/bash
+
+echo "停止基础镜像"
+docker ps -a | grep $PARGRAM | awk '{printf "%s" ,$1}' | xargs -r docker stop
+
+echo "删除基础镜像容器"
+docker ps -a | grep $PARGRAM | grep Exited| awk '{printf "%s" ,$1}' | xargs -r docker rm -v
+
+read  -p "是否删除此次构建的基础镜像? (y/n)" y_n
+if [ "$y_n" == "y" ]; then
+    docker rmi $PARGRAM:$version
+fi;
+
+echo "正在运行的基础镜像:"
+docker ps -a | grep $PARGRAM
+
+echo "基础镜像列表:"
+docker images | grep $PARGRAM

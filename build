@@ -1,0 +1,45 @@
+#!/bin/bash
+read  -p "请选择构建的项目类型(1-java 2-other):" type
+if [[ $type == "1" ]]; then
+    jar=$(ls ./projectImages/project | grep jar | awk '{split($0,a,".jar");print a[1]}')
+    if [ -z "$jar"  ]; then
+        echo "请将项目jar包放入docker/projectImages/project 目录下,详细介绍间 Help.md 文档"
+        exit
+    fi
+fi
+#检测本地服务器是否含有基础镜像
+base=$(docker images | grep "centos" | awk '{if($2=="ysh") printf "%s" ,$2}')
+if [ "$base" == "ysh" ]; then
+    echo "基础镜像 centos7:ysh 已存在，不需要编译...";
+else
+    echo "基础镜像 centos7:ysh 不存在，开始编译基础镜像";
+    cd baseImage
+    ./build-base
+    cd ../
+fi
+#判断基础镜像是否编译成功
+check=$(docker images | grep "centos" | awk '{if($2=="ysh") printf "%s" ,$2}')
+if [ -z "$check" ]; then
+    echo "基础镜像 centos7:ysh 编译失败";
+    exit
+fi
+
+echo "开始编译项目镜像"
+read  -p "请输入镜像名称):" project
+if [ -z "$project" ]; then
+  if [[ $type == "1" ]]; then
+    project="$(echo $jar | tr '[:upper:]' '[:lower:]')"
+  else
+    echo "必须指定项目名称！！！！"
+    exit
+  fi
+fi
+read  -p "请输入镜像版本号(默认取当前日期):" version
+if [ -z "$version" ]; then
+    version=`date '+%Y-%m-%d'`
+fi
+echo "此次构建项目镜像信息：镜像名[$project] 版本号[$version] ,开始构建"
+cd projectImages
+./build-project $project $version
+
+echo "此次镜像构建结束"

@@ -1,0 +1,27 @@
+#!/bin/bash
+PROJECT=$1
+VERSION=$2
+echo "项目镜像名称：$PROJECT:$VERSION"
+docker build -t $PROJECT:$VERSION .
+echo  '编译结果:'
+docker images | grep $PROJECT
+
+echo '项目镜像(容器内部)：请确认容器内部程序是否可用 ./start，退出请 ctrl D '
+docker run -it $PROJECT:$VERSION /bin/bash
+
+echo "停止项目镜像容器"
+docker ps -a | grep $PROJECT | awk '{printf "%s" ,$1}' | xargs -r docker stop
+
+echo "删除项目镜像容器"
+docker ps -a | grep $PROJECT | grep Exited| awk '{printf "%s" ,$1}' | xargs -r docker rm -v
+
+read  -p "是否要作废本次构建的项目镜像? (y/n)" y_n
+if [ "$y_n" == "y" ]; then
+    docker rmi $PROJECT:$VERSION
+fi;
+
+echo "此时运行的项目镜像"
+docker ps -a | grep $PROJECT
+
+echo "此时已构建的项目镜像"
+docker images | grep $PROJECT
