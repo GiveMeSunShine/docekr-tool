@@ -110,15 +110,13 @@
 
 5. 启动服务，并验证
 
-    ./run
-    
-    docker ps
-    
-    CONTAINER ID   IMAGE                                      COMMAND                CREATED              STATUS              PORTS                      NAMES
-    c469bf63e151   umf-blockchain-0.0.1-snapshot:2021-01-28   "/bin/sh -c ./start"   About a minute ago   Up About a minute   0.0.0.0:18080->18080/tcp   deploy_blockchain_1
+        ./run
+        docker ps
+        CONTAINER ID   IMAGE                                      COMMAND                CREATED              STATUS              PORTS                      NAMES
+        c469bf63e151   umf-blockchain-0.0.1-snapshot:2021-01-28   "/bin/sh -c ./start"   About a minute ago   Up About a minute   0.0.0.0:18080->18080/tcp   deploy_blockchain_1
     
 发送请求：
 http://localhost:18080/blockchain/eth/ethnodes/byline?st=1&pg=2&ps=10
 
-![RUNOOB 图标](demo.png)
+![image](https://github.com/MaiEmily/map/blob/master/public/image/20190528145810708.png)
 
